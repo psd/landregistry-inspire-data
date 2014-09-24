@@ -1,8 +1,9 @@
 TARGETS=\
-	City_of_London.json
+	City_of_London.geojson
+
 
 .SUFFIXES:
-.SUFFIXES: .zip .gml .json
+.SUFFIXES: .zip .gml .geojson
 .PRECIOUS: %.gml
 
 all: $(TARGETS)
@@ -21,9 +22,9 @@ index.xml:
 %.gml: %.zip
 	unzip -qq -c $? Land_Registry_Cadastral_Parcels.gml | sed -e 's/xsi:schemaLocation="[^"]*"//'> $@
 
-%.json: %.gml
+%.geojson: %.gml
 	rm -f $@
 	ogr2ogr -f "GeoJSON" $@ $<
 
 clean::
-	rm -f *.json *.gml *.gfs
+	rm -f *.geojson *.gml *.gfs
