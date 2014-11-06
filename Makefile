@@ -1,10 +1,9 @@
-TARGETS=\
-	City_of_London.topojson
-
-
 .SUFFIXES:
 .SUFFIXES: .zip .gml .geojson
-.PRECIOUS: %.gml
+.PRECIOUS: .zip %.geojson
+.PHONY: makefiles
+
+-include makefiles/polygons.mk
 
 all: $(TARGETS)
 
@@ -19,15 +18,24 @@ index.xml:
 %.zip:
 	wget -q http://data.inspire.landregistry.gov.uk/$@ -O $@
 
-%.gml: %.zip
+data/%.gml: data/%.zip
 	unzip -qq -c $? Land_Registry_Cadastral_Parcels.gml | sed -e 's/xsi:schemaLocation="[^"]*"//'> $@
 
-%.geojson: %.gml
+polygons/%.geojson: data/%.gml
 	rm -f $@
+	mkdir -p polygons
 	ogr2ogr  -t_srs WGS84 -f "GeoJSON" $@ $<
 
-%.topojson: %.geojson
+polygons/%.topojson: polygons/%.geojson
 	topojson $< > $@
 
 clean::
 	rm -f *.geojson *.gml *.gfs
+
+makefiles:	makefiles/polygons.mk
+
+makefiles/polygons.mk:	index.txt
+	@mkdir -p makefiles
+	echo 'TARGETS=\\' > $@
+	sed -e 's:^:polygons/:' -e 's/.zip/.topojson \\/' index.txt >> $@
+	echo index.txt >> $@
