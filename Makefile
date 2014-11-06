@@ -24,7 +24,7 @@ index.xml:
 
 %.geojson: %.gml
 	rm -f $@
-	ogr2ogr -f "GeoJSON" $@ $<
+	ogr2ogr  -t_srs WGS84 -f "GeoJSON" $@ $<
 
 clean::
 	rm -f *.geojson *.gml *.gfs
