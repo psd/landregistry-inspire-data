@@ -11,8 +11,9 @@
 all: $(TARGETS)
 
 # download an individual zip file
-%.zip:
-	wget -q http://data.inspire.landregistry.gov.uk/$@ -O $@
+data/%.zip:
+	@mkdir -p data
+	wget -q http://data.inspire.landregistry.gov.uk/`basename $@` -O $@
 
 # extract the GML shapefile
 data/%.gml: data/%.zip
