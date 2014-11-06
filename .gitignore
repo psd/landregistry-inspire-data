@@ -5,3 +5,4 @@
 data
 index.xml
 makefiles
+polygons/*.geojson
