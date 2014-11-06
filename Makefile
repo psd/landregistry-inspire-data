@@ -3,7 +3,8 @@
 #
 .SUFFIXES:
 .SUFFIXES: .zip .gml .geojson
-.PRECIOUS: .zip %.geojson
+.PRECIOUS: data/%.zip data/%.geojson
+.SECONDARY: data/%.zip data/%.geojson
 .PHONY: makefiles
 
 -include makefiles/polygons.mk
