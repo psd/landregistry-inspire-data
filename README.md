@@ -7,9 +7,15 @@ This information is subject to Crown copyright and is reproduced with the permis
 
 To rebuild the data:
 
-    $ brew install gdal
-    $ brew install xsltproc
+    $ sudo apt-get install gdal-bin xsltproc
+    $ sudo npm install -g topojson
 
+or 
+
+    $ brew install gdal xsltproc
     $ npm install -g topojson
+
+then
+
     $ make makefiles
     $ make
