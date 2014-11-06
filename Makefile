@@ -1,5 +1,5 @@
 TARGETS=\
-	City_of_London.geojson
+	City_of_London.topojson
 
 
 .SUFFIXES:
@@ -25,6 +25,9 @@ index.xml:
 %.geojson: %.gml
 	rm -f $@
 	ogr2ogr  -t_srs WGS84 -f "GeoJSON" $@ $<
+
+%.topojson: %.geojson
+	topojson $< > $@
 
 clean::
 	rm -f *.geojson *.gml *.gfs
